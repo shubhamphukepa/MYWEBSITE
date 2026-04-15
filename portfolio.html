@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Shubham Phuke | Netflix-style Data Portfolio</title>
+  <!-- Google Fonts + Font Awesome 6 -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #141414;
+      color: #e5e5e5;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    /* Netflix-inspired scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #222;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #e50914;
+      border-radius: 4px;
+    }
+
+    /* GLOBAL */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 4%;
+    }
+
+    /* NETFLIX NAVBAR */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: linear-gradient(to bottom, #000000e6 0%, #00000099 50%, transparent 100%);
+      z-index: 1000;
+      padding: 1.2rem 0;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(4px);
+    }
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #e50914, #ff4d4d);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .logo:hover {
+      transform: scale(1.02);
+    }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: #e5e5e5;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: 0.2s;
+      position: relative;
+    }
+    .nav-links a:hover {
+      color: #e50914;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #e50914;
+      transition: 0.2s;
+    }
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+    .menu-icon {
+      display: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: white;
+    }
+    @media (max-width: 768px) {
+      .nav-links {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 70px);
+        background: #0a0a0af2;
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        transition: 0.3s;
+        z-index: 999;
+      }
+      .nav-links.active {
+        left: 0;
+      }
+      .menu-icon {
+        display: block;
+      }
+    }
+
+    /* HERO SECTION - NETFLIX BANNER */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      background: radial-gradient(circle at 30% 10%, #1f1f1f, #000000);
+      padding-top: 80px;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(77deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 70%);
+      z-index: 1;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+    }
+    .hero-text {
+      flex: 1;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: #e50914;
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+    .hero-text h1 {
+      font-size: 3.8rem;
+      font-weight: 900;
+      margin: 12px 0 12px;
+      line-height: 1.1;
+    }
+    .hero-text .highlight {
+      color: #e50914;
+      border-bottom: 2px solid #e50914;
+      display: inline-block;
+    }
+    .hero-tagline {
+      font-size: 1.2rem;
+      color: #ccc;
+      margin-bottom: 32px;
+      max-width: 550px;
+    }
+    .btn-group {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 28px;
+      border-radius: 6px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      font-size: 1rem;
+      border: none;
+    }
+    .btn-primary {
+      background: #e50914;
+      color: white;
+    }
+    .btn-primary:hover {
+      background: #b81d24;
+      transform: scale(1.02);
+    }
+    .btn-outline {
+      background: rgba(109, 109, 110, 0.7);
+      color: white;
+      border: none;
+      backdrop-filter: blur(4px);
+    }
+    .btn-outline:hover {
+      background: rgba(109, 109, 110, 0.9);
+      transform: scale(1.02);
+    }
+    .hero-image {
+      flex: 0.8;
+      text-align: center;
+      filter: drop-shadow(0 20px 30px rgba(0,0,0,0.6));
+    }
+    /* Enhanced profile image container */
+    .profile-img-container {
+      position: relative;
+      display: inline-block;
+      border-radius: 20px;
+      overflow: hidden;
+      transition: 0.3s ease;
+      box-shadow: 0 25px 35px -12px black;
+    }
+    .profile-img {
+      width: 280px;
+      height: 280px;
+      object-fit: cover;
+      display: block;
+      border: 3px solid #e50914;
+      transition: 0.3s ease;
+      cursor: pointer;
+    }
+    .profile-img-container:hover .profile-img {
+      transform: scale(1.03);
+      border-radius: 28px;
+    }
+    /* Upload overlay */
+    .upload-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(6px);
+      color: white;
+      text-align: center;
+      padding: 10px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .profile-img-container:hover .upload-overlay {
+      transform: translateY(0);
+    }
+    .upload-overlay i {
+      font-size: 1rem;
+      color: #e50914;
+    }
+    .upload-overlay span {
+      font-size: 0.75rem;
+    }
+    #hiddenFileInput {
+      display: none;
+    }
+    @media (max-width: 800px) {
+      .hero-text h1 { font-size: 2.5rem; }
+      .profile-img { width: 220px; height: 220px; }
+    }
+
+    /* SECTION TITLES - NETFLIX ROW STYLE */
+    .section {
+      padding: 70px 0 60px;
+    }
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-left: 5px solid #e50914;
+      padding-left: 20px;
+    }
+    .section-title i {
+      color: #e50914;
+      font-size: 1.6rem;
+    }
+
+    /* ABOUT CARD */
+    .about-card {
+      background: #1f1f1f;
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      border: 1px solid #333;
+      transition: 0.2s;
+    }
+    .about-card p {
+      margin-bottom: 18px;
+      line-height: 1.6;
+      color: #ddd;
+    }
+
+    /* SKILLS GRID - Netflix rows */
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .skill-card {
+      background: #1f1f1f;
+      padding: 20px 32px;
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      border: 1px solid #333;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .skill-card i {
+      font-size: 1.6rem;
+      color: #e50914;
+    }
+    .skill-card:hover {
+      transform: translateY(-6px);
+      border-color: #e50914;
+      background: #2a2a2a;
+    }
+
+    /* PROJECT CARDS - like Netflix rows hover */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 30px;
+    }
+    .project-card {
+      background: #1f1f1f;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.2s;
+      cursor: pointer;
+      border: 1px solid #2c2c2c;
+    }
+    .project-card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 20px 30px -10px black;
+      border-color: #e50914;
+    }
+    .project-img {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(145deg, #2c1e1e, #111);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+      color: #e50914;
+    }
+    .project-info {
+      padding: 24px;
+    }
+    .project-info h3 {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+    .project-btn {
+      background: none;
+      border: 1px solid #e50914;
+      padding: 8px 20px;
+      border-radius: 30px;
+      color: #fff;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .project-btn:hover {
+      background: #e50914;
+      color: white;
+      transform: translateX(6px);
+    }
+
+    /* SOCIAL LINKS - netflix footer style */
+    .social-section {
+      background: #0a0a0a;
+      border-top: 1px solid #2c2c2c;
+      border-bottom: 1px solid #2c2c2c;
+    }
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .social-icon {
+      background: #1f1f1f;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      color: #fff;
+      transition: 0.2s;
+      text-decoration: none;
+    }
+    .social-icon:hover {
+      background: #e50914;
+      transform: translateY(-5px);
+    }
+
+    /* CONTACT SECTION - minimal but netflix mood */
+    .contact-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      background: #1a1a1a;
+      border-radius: 20px;
+      padding: 40px;
+      border: 1px solid #333;
+    }
+    .contact-info h3 {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+    .contact-detail {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .contact-detail i {
+      width: 32px;
+      color: #e50914;
+    }
+    .contact-form input, .contact-form textarea {
+      background: #0f0f0f;
+      border: 1px solid #333;
+      padding: 14px 18px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      color: white;
+      font-size: 1rem;
+      width: 100%;
+      margin-bottom: 16px;
+      transition: 0.2s;
+    }
+    .contact-form input:focus, .contact-form textarea:focus {
+      outline: none;
+      border-color: #e50914;
+      box-shadow: 0 0 0 2px rgba(229,9,20,0.3);
+    }
+    .contact-form button {
+      background: #e50914;
+      border: none;
+      padding: 14px;
+      font-weight: 700;
+      font-size: 1rem;
+      border-radius: 40px;
+      cursor: pointer;
+      color: white;
+      width: 100%;
+      transition: 0.2s;
+    }
+    .contact-form button:hover {
+      background: #b81d24;
+    }
+    footer {
+      text-align: center;
+      padding: 32px;
+      font-size: 0.8rem;
+      color: #777;
+      background: #000000;
+    }
+    /* toast notification */
+    .toast-msg {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #e50914;
+      color: white;
+      padding: 12px 28px;
+      border-radius: 40px;
+      font-weight: 600;
+      z-index: 2000;
+      box-shadow: 0 8px 20px black;
+      font-size: 0.9rem;
+      pointer-events: none;
+      transition: 0.2s;
+    }
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.7s ease;
+    }
+    .fade-up.appear {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* Profile image helper note */
+    .helper-note {
+      font-size: 0.7rem;
+      margin-top: 12px;
+      color: #aaa;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container nav-container">
+    <div class="logo" id="logoHome">SHUBHAM PHUKE</div>
+    <div class="menu-icon" id="menuToggle">
+      <i class="fas fa-bars"></i>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#social">Social</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <!-- HERO SECTION -->
+  <section id="home" class="hero">
+    <div class="container hero-content">
+      <div class="hero-text fade-up">
+        <div class="hero-badge">📊 DATA ANALYST & FREELANCER</div>
+        <h1>Shubham <span class="highlight">Phuke</span></h1>
+        <div class="hero-tagline">Turning raw data into cinematic insights · Excel · Python · BI · Freelance</div>
+        <div class="btn-group">
+          <a href="#projects" class="btn btn-primary" id="exploreProjectsBtn"><i class="fas fa-chart-line"></i> Explore Projects</a>
+          <button class="btn btn-outline" id="netflixResumeBtn"><i class="fas fa-download"></i> Download Resume</button>
+        </div>
+      </div>
+      <div class="hero-image fade-up">
+        <!-- Enhanced profile upload section -->
+        <div class="profile-img-container" id="profileContainer">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%231f1f1f'/%3E%3Ctext x='50' y='55' font-size='12' text-anchor='middle' fill='%23e50914' font-family='monospace'%3E📸 ADD PHOTO%3C/text%3E%3C/svg%3E" alt="Shubham Phuke" class="profile-img" id="profileImage">
+          <div class="upload-overlay" id="uploadTrigger">
+            <i class="fas fa-camera"></i>
+            <span>Click to upload photo</span>
+          </div>
+        </div>
+        <div class="helper-note">
+          <i class="fas fa-mouse-pointer"></i> Hover + click to add your profile picture
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="section">
+    <div class="container">
+      <div class="section-title"><i class="fas fa-user-astronaut"></i> About Shubham</div>
+      <div class="about-card fade-up">
+        <p>I'm <strong>Shubham Phuke</strong>, a passionate Data Analyst and tech freelancer currently pursuing BCS Computer Science. With expertise in Python (Pandas, NumPy, Matplotlib, Scikit-learn), SQL, Power BI, and advanced Excel, I transform messy data into strategic decisions. I've helped small businesses optimize expenses and reduce churn through actionable dashboards.</p>
+        <p>Beyond analytics, I create tech content on YouTube (@classic_techies) and offer freelance web & data solutions. My mission: make data science accessible and drive business growth with My-style storytelling. Open for global collaborations!</p>
+        <div style="margin-top: 20px;"><i class="fas fa-fire" style="color:#e50914;"></i> <strong>78.83%</strong> in HSC | <strong>83.40%</strong> in SSC | Certified MS-CIT & Data Analytics expert</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="section">
+    <div class="container">
+      <div class="section-title"><i class="fas fa-code"></i> Core Arsenal</div>
+      <div class="skills-grid">
+        <div class="skill-card fade-up"><i class="fab fa-python"></i> Python (Pandas, NumPy, Scikit-learn)</div>
+        <div class="skill-card fade-up"><i class="fas fa-chart-pie"></i> Power BI & Tableau</div>
+        <div class="skill-card fade-up"><i class="fas fa-file-excel"></i> Advanced Excel / MIS</div>
+        <div class="skill-card fade-up"><i class="fas fa-database"></i> SQL & SQLite3</div>
+        <div class="skill-card fade-up"><i class="fas fa-chart-line"></i> Data Cleaning & Analytics</div>
+        <div class="skill-card fade-up"><i class="fas fa-laptop-code"></i> Freelancing & Web Dev</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS (Netflix rows style) -->
+  <section id="projects" class="section">
+    <div class="container">
+      <div class="section-title"><i class="fas fa-tv"></i> Trending Projects</div>
+      <div class="projects-grid">
+        <div class="project-card fade-up" data-project-name="Sales Data Analysis">
+          <div class="project-img"><i class="fas fa-chart-simple"></i> 📈</div>
+          <div class="project-info">
+            <h3>Sales Data Analysis</h3>
+            <p>Excel-based dashboard identifying monthly trends & top-performing products. Data cleaning + pivot insights increased forecast accuracy by 22%.</p>
+            <button class="project-btn viewProjectBtn" data-project="Sales Data Analysis">View Demo <i class="fas fa-arrow-right"></i></button>
+          </div>
+        </div>
+        <div class="project-card fade-up" data-project-name="Customer Churn Analysis">
+          <div class="project-img"><i class="fas fa-user-minus"></i> 📉</div>
+          <div class="project-info">
+            <h3>Customer Churn Analysis</h3>
+            <p>Identified key retention drivers using Python + visualization. Delivered actionable recommendations that reduced churn by 15% (simulated).</p>
+            <button class="project-btn viewProjectBtn" data-project="Customer Churn Analysis">View Demo <i class="fas fa-arrow-right"></i></button>
+          </div>
+        </div>
+        <div class="project-card fade-up" data-project-name="Financial Budget & Expense Tracker">
+          <div class="project-img"><i class="fas fa-coins"></i> 💰</div>
+          <div class="project-info">
+            <h3>Financial Expense & Budget Analysis</h3>
+            <p>Budget vs actual tracker using Power BI. Real-time expense control & cost optimization dashboards for small enterprises.</p>
+            <button class="project-btn viewProjectBtn" data-project="Financial Budget">View Demo <i class="fas fa-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOCIAL NETFLIX STYLE -->
+  <section id="social" class="social-section section">
+    <div class="container">
+      <div class="section-title"><i class="fas fa-users"></i> Stream with me</div>
+      <div class="social-icons">
+        <a href="https://www.linkedin.com/in/shubham75" target="_blank" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://github.com/shubhamphukepa" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
+        <a href="https://youtube.com/@classic_techies" target="_blank" class="social-icon"><i class="fab fa-youtube"></i></a>
+        <a href="https://www.instagram.com/classic_techies55556" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.facebook.com/profile.php?id=61572106355937" target="_blank" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section">
+    <div class="container">
+      <div class="section-title"><i class="fas fa-envelope-open-text"></i> Start a conversation</div>
+      <div class="contact-wrapper fade-up">
+        <div class="contact-info">
+          <h3>Let's connect</h3>
+          <div class="contact-detail"><i class="fas fa-phone-alt"></i> <span>+91 9421900829</span></div>
+          <div class="contact-detail"><i class="fas fa-envelope"></i> <span>sphukepatil@gmail.com</span></div>
+          <div class="contact-detail"><i class="fas fa-map-marker-alt"></i> <span>Remote / India</span></div>
+          <p style="margin-top: 20px;">Freelance projects, data consulting, or just tech chat — hit me up!</p>
+        </div>
+        <form class="contact-form" id="contactForm">
+          <input type="text" placeholder="Full Name" id="formName" required>
+          <input type="email" placeholder="Email Address" id="formEmail" required>
+          <textarea rows="4" placeholder="Your message..." id="formMessage" required></textarea>
+          <button type="submit"><i class="fas fa-paper-plane"></i> Send message</button>
+          <div id="formFeedback" style="font-size:0.8rem; text-align:center; margin-top:10px;"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Shubham Phuke — Data Analyst & Creator. All rights reserved.</p>
+  </footer>
+</main>
+
+<!-- Hidden file input for image upload -->
+<input type="file" id="hiddenFileInput" accept="image/jpeg, image/png, image/jpg, image/webp" style="display: none;">
+
+<script>
+  // ========== PROFILE PHOTO UPLOAD SYSTEM (File API) ==========
+  const hiddenInput = document.getElementById('hiddenFileInput');
+  const profileImg = document.getElementById('profileImage');
+  const uploadTrigger = document.getElementById('uploadTrigger');
+  const profileContainer = document.getElementById('profileContainer');
+
+  // Trigger file upload when clicking overlay or container
+  function triggerUpload() {
+    hiddenInput.click();
+  }
+  if(uploadTrigger) uploadTrigger.addEventListener('click', triggerUpload);
+  if(profileContainer) profileContainer.addEventListener('click', (e) => {
+    // avoid double trigger if clicked on overlay directly
+    if(e.target === uploadTrigger || uploadTrigger.contains(e.target)) return;
+    triggerUpload();
+  });
+
+  // Handle file selection
+  hiddenInput.addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if(!file) return;
+    
+    // Validate file type
+    if(!file.type.match('image.*')) {
+      showToast("❌ Please select a valid image (JPEG, PNG, etc.)", 3000);
+      return;
+    }
+    
+    // Validate size (max 5MB)
+    if(file.size > 5 * 1024 * 1024) {
+      showToast("📸 Image too large! Max 5MB", 3000);
+      return;
+    }
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      profileImg.src = e.target.result;
+      showToast("✨ Profile picture updated! Netflix style ready.", 2500);
+      // Also store in localStorage so it persists on refresh
+      localStorage.setItem('shubhamProfilePhoto', e.target.result);
+    };
+    reader.onerror = function() {
+      showToast("⚠️ Error reading file. Try again.", 2500);
+    };
+    reader.readAsDataURL(file);
+  });
+  
+  // Load saved profile photo from localStorage if exists
+  const savedPhoto = localStorage.getItem('shubhamProfilePhoto');
+  if(savedPhoto && profileImg) {
+    profileImg.src = savedPhoto;
+  }
+  
+  // fallback: if image fails to load (e.g., broken URL) show placeholder but keep upload ability
+  profileImg.addEventListener('error', function() {
+    if(!profileImg.src.includes('data:image/svg+xml') && !localStorage.getItem('shubhamProfilePhoto')) {
+      profileImg.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%231f1f1f'/%3E%3Ctext x='50' y='55' font-size='12' text-anchor='middle' fill='%23e50914' font-family='monospace'%3E📸 ADD PHOTO%3C/text%3E%3C/svg%3E";
+    }
+  });
+  
+  // Helper toast function
+  function showToast(msg, duration = 3200) {
+    let existing = document.querySelector('.toast-msg');
+    if(existing) existing.remove();
+    const div = document.createElement('div');
+    div.className = 'toast-msg';
+    div.innerText = msg;
+    document.body.appendChild(div);
+    setTimeout(() => { div.style.opacity = '0'; setTimeout(() => div.remove(), 300); }, duration);
+  }
+  
+  // ------------------- RESUME DOWNLOAD (mock with helpful msg) -------------------
+  const resumeBtn = document.getElementById('netflixResumeBtn');
+  const RESUME_FILE = "Shubham_Phuke_Resume.pdf";  // user can add actual PDF
+  resumeBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    fetch(RESUME_FILE, { method: 'HEAD' })
+      .then(res => {
+        if(res.ok) {
+          const link = document.createElement('a');
+          link.href = RESUME_FILE;
+          link.download = "Shubham_Phuke_Resume.pdf";
+          link.click();
+          showToast("✅ Resume download started! (Shubham_Phuke_Resume.pdf)");
+        } else {
+          showToast("📄 Resume file not found. Please add 'Shubham_Phuke_Resume.pdf' or contact me directly for CV.");
+        }
+      })
+      .catch(() => showToast("⚠️ Resume unavailable. Reach out via email for CV."));
+  });
+  
+  // ---------- SKILLS interactive toast ----------
+  document.querySelectorAll('.skill-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const txt = card.innerText.trim();
+      showToast(`🔥 ${txt} — ready for data challenges & freelance.`);
+    });
+  });
+  
+  // ---------- PROJECTS ----------
+  const projectBtns = document.querySelectorAll('.viewProjectBtn');
+  projectBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const proj = btn.getAttribute('data-project') || 'project';
+      showToast(`🎬 "${proj}" — interactive demo coming soon. Check GitHub/LinkedIn for more!`);
+    });
+  });
+  document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      if(e.target.classList.contains('project-btn')) return;
+      const name = card.getAttribute('data-project-name') || card.querySelector('h3')?.innerText;
+      showToast(`📺 Explore "${name}" — click 'View Demo' for details`);
+    });
+  });
+  
+  // ---------- CONTACT FORM ----------
+  const contactForm = document.getElementById('contactForm');
+  const feedbackDiv = document.getElementById('formFeedback');
+  if(contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('formName').value.trim();
+      const email = document.getElementById('formEmail').value.trim();
+      const msg = document.getElementById('formMessage').value.trim();
+      if(!name || !email || !msg) {
+        feedbackDiv.innerHTML = '⚠️ Please fill all fields.';
+        feedbackDiv.style.color = '#f87171';
+        setTimeout(() => feedbackDiv.innerHTML = '', 2500);
+        return;
+      }
+      if(!email.includes('@')) {
+        feedbackDiv.innerHTML = '📧 Valid email required.';
+        feedbackDiv.style.color = '#f87171';
+        setTimeout(() => feedbackDiv.innerHTML = '', 2500);
+        return;
+      }
+      feedbackDiv.innerHTML = '✅ Message sent! Shubham will reply soon.';
+      feedbackDiv.style.color = '#4ade80';
+      showToast(`📨 Thanks ${name}, I'll reach out within 24h!`);
+      contactForm.reset();
+      setTimeout(() => feedbackDiv.innerHTML = '', 4000);
+    });
+  }
+  
+  // ---------- MOBILE MENU ----------
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinksEl = document.getElementById('navLinks');
+  if(menuToggle) {
+    menuToggle.addEventListener('click', () => {
+      navLinksEl.classList.toggle('active');
+      const icon = menuToggle.querySelector('i');
+      if(navLinksEl.classList.contains('active')) {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-times');
+      } else {
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+      }
+    });
+  }
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinksEl.classList.remove('active');
+      const icon = menuToggle?.querySelector('i');
+      if(icon) { icon.classList.remove('fa-times'); icon.classList.add('fa-bars'); }
+    });
+  });
+  
+  // ---------- SCROLL ANIMATIONS (fade-up) ----------
+  const faders = document.querySelectorAll('.fade-up');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting) {
+        entry.target.classList.add('appear');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  faders.forEach(el => obs.observe(el));
+  
+  // smooth anchor + logo
+  document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const id = this.getAttribute('href');
+      if(id && id !== "#") {
+        const target = document.querySelector(id);
+        if(target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+          if(navLinksEl.classList.contains('active')) {
+            navLinksEl.classList.remove('active');
+            const icon = menuToggle?.querySelector('i');
+            if(icon) icon.classList.remove('fa-times'); icon.classList.add('fa-bars');
+          }
+        }
+      }
+    });
+  });
+  document.getElementById('logoHome')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  
+  // Netflix badge dynamic rotator
+  const heroBadge = document.querySelector('.hero-badge');
+  if(heroBadge) {
+    const messages = ["📺DATA", "🔥 ANALYTICS STREAMING", "📊 FREELANCE READY", "🎬 SHUBHAM PHUKE"];
+    let idx = 0;
+    setInterval(() => {
+      if(document.visibilityState === "visible") {
+        idx = (idx+1) % messages.length;
+        heroBadge.style.opacity = "0.7";
+        setTimeout(() => { heroBadge.innerText = messages[idx]; heroBadge.style.opacity = "1"; }, 100);
+      }
+    }, 3500);
+  }
+  console.log("🔥 Portfolio with direct photo upload — click profile image to add your photo!");
+</script>
+</body>
+</html>
